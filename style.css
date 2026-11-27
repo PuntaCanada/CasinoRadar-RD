@@ -100,3 +100,8 @@ footer a { color: var(--lime); }
   .masthead { justify-content: center; }
   .controls button { flex-basis: 100%; }
 }
+.external { display: inline-block; width: .6em; height: .6em; margin-left: .1em; vertical-align: .12em; border-top: .11em solid; border-right: .11em solid; position: relative; }
+.external::after { content: ""; position: absolute; right: -.06em; top: .17em; width: .7em; height: .1em; background: currentColor; transform: rotate(-45deg); }
+@media (max-width: 350px) {
+  h1 { font-size: 2.5rem; }
+}

@@ -45,12 +45,13 @@ test('distinguish exact, missing, historical and conflicting matches', () => {
 });
 
 test('import only explicit source rows and deduplicate normalized domains', () => {
-  const table = '<table><tr><th>Nombre</th><th>Dominio</th></tr><tr><td>name.example</td><td>www.Example.com</td></tr><tr><td>Next</td><td>https://www.example.com/</td></tr></table>';
+  const table = '<h2>Juegos de Azar por Internet</h2><table><tr><th>Nombre</th><th>Dominio</th></tr><tr><td>name.example</td><td>www.Example.com</td></tr><tr><td>Next</td><td>https://www.example.com/</td></tr></table>';
   assert.deepEqual(domainList(table, 'registry'), ['www.example.com']);
   assert.throws(() => domainList('<p>www.example.com</p>', 'registry'));
   assert.throws(() => domainList('<main>Access denied</main>', 'warnings'));
-  const warnings = Array.from({ length: 11 }, (_, index) => '<li>https://host' + index + '.example</li>').join('');
-  assert.equal(domainList('<main><h1>Operadores no Autorizados</h1><ol>' + warnings + '</ol></main>', 'warnings').length, 11);
+  assert.throws(() => domainList(table, 'warnings'));
+  assert.deepEqual(domainList(table.replace('<h2>', '<h2>Sitios no autorizados de '), 'warnings'), ['www.example.com']);
+  assert.throws(() => domainList(table.replace('www.Example.com', 'invalid'), 'registry'));
 });
 
 test('validate and deduplicate official items and their documents', () => {

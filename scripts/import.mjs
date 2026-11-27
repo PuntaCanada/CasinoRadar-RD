@@ -20,27 +20,26 @@ export function plain(html) {
 }
 
 export function domainList(content, kind) {
-  // Only import cells in a table with an explicit domain column for the DGJA register.
-  // For the DCJA warning page, read list items from its editorial content.
   const entries = [];
-  if (kind === 'registry') {
-    for (const table of content.matchAll(/<table\b[^>]*>([\s\S]*?)<\/table>/gi)) {
-      const rows = [...table[1].matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)];
-      const cells = row => [...row.matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)].map(match => plain(match[1]));
-      const first = rows.shift();
-      const column = first ? cells(first[1]).findIndex(value => /^(dominio|sitio web|página web|url)$/i.test(value)) : -1;
-      if (column < 0) continue;
-      for (const row of rows) entries.push(cells(row[1])[column] ?? '');
-    }
-  } else {
-    const body = content.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] ?? '';
-    if (!/operadores no autorizados/i.test(body)) throw new Error('Missing warnings heading');
-    for (const list of body.matchAll(/<ol\b[^>]*>([\s\S]*?)<\/ol>/gi)) {
-      for (const item of list[1].matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)) entries.push(plain(item[1]));
-    }
+  const scope = /juegos(?: de azar)? (?:en l[ií]nea|por internet)/i;
+  const sanctions = /no autorizad[oa]s?|advertencias?|sancionad[oa]s?/i;
+  for (const match of content.matchAll(/<table\b[^>]*>([\s\S]*?)<\/table>/gi)) {
+    const before = content.slice(0, match.index);
+    const heading = [...before.matchAll(/<h[1-6]\b[^>]*>([\s\S]*?)<\/h[1-6]>/gi)].at(-1)?.[1] ?? '';
+    const caption = match[1].match(/<caption\b[^>]*>([\s\S]*?)<\/caption>/i)?.[1] ?? '';
+    const context = plain(heading + ' ' + caption);
+    if (!scope.test(context) || sanctions.test(context) !== (kind === 'warnings')) continue;
+    const rows = [...match[1].matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)];
+    const cells = row => [...row.matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)].map(cell => plain(cell[1]));
+    const first = rows.shift();
+    const column = first ? cells(first[1]).findIndex(value => /^(dominio|sitio web|página web|url)$/i.test(value)) : -1;
+    if (column < 0) continue;
+    const values = rows.map(row => hostname(cells(row[1])[column] ?? ''));
+    if (values.some(value => !value)) throw new Error('Unexpected official domain cell');
+    entries.push(...values);
   }
-  const records = [...new Set(entries.map(hostname).filter(Boolean))].sort();
-  if (!records.length || (kind === 'warnings' && records.length < 10)) throw new Error('No recognized official domain list');
+  const records = [...new Set(entries)].sort();
+  if (!records.length) throw new Error('No recognized online domain table');
   return records;
 }
 
@@ -70,27 +69,28 @@ async function refresh(key, load) {
   try {
     const records = await load();
     if (key !== 'news' && records.length < snapshot[key].records.length / 2) throw new Error('Unexpected drop in records');
-    snapshot[key] = { ...snapshot[key], status: 'ok', records, retrievedAt: checkedAt, checkedAt };
+    snapshot[key] = { ...snapshot[key], url: source[key], status: 'ok', records, retrievedAt: checkedAt, checkedAt };
     console.log(key + ': ' + records.length + ' records');
   } catch (error) {
-    snapshot[key] = { ...snapshot[key], status: 'unavailable', checkedAt };
+    snapshot[key] = { ...snapshot[key], url: source[key], status: 'unavailable', checkedAt };
     console.warn(key + ': ' + error.message.split('\n')[0]);
   }
+}
+
+async function loadDomains(key) {
+  const payload = JSON.parse(await download(source[key + 'Api']));
+  const page = Array.isArray(payload) && payload.length === 1 && payload[0];
+  if (page?.link !== source[key]) throw new Error('Unexpected DGJA page');
+  const content = page.content.rendered;
+  if (/en construcci[oó]n|en mantenimiento/i.test(plain(content))) throw new Error('DGJA page under construction');
+  return domainList(content, key);
 }
 
 if (process.argv[1] && new URL(import.meta.url).pathname === process.argv[1]) {
   await Promise.all([
     refresh('news', async () => newsItems(JSON.parse(await download(source.newsApi)))),
-    refresh('registry', async () => {
-      const payload = JSON.parse(await download(source.registryApi));
-      const page = payload.length === 1 && payload[0];
-      if (page.link !== source.registry) throw new Error('Unexpected register');
-      const content = page.content.rendered;
-      if (/en construcci[oó]n|en mantenimiento/i.test(plain(content))) throw new Error('DGJA register under construction');
-      if (!/juegos de azar por internet|juegos (en l[ií]nea|por internet)/i.test(plain(content))) throw new Error('Missing online gambling scope');
-      return domainList(content, 'registry');
-    }),
-    refresh('warnings', async () => domainList(await download(source.warnings), 'warnings'))
+    refresh('registry', () => loadDomains('registry')),
+    refresh('warnings', () => loadDomains('warnings'))
   ]);
   const temporary = new URL('../data/snapshot.tmp', import.meta.url);
   await writeFile(temporary, JSON.stringify(snapshot, null, 2) + '\n');

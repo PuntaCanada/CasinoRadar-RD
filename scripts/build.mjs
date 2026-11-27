@@ -1,13 +1,13 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { copy } from './copy.mjs';
-import { registry, warnings, news } from './sources.mjs';
+import { registry, warnings, previousWarnings, news } from './sources.mjs';
 
 const origin = 'https://casinoradar-rd.pages.dev';
 const urls = { es: '/', en: '/en/', de: '/de/', fr: '/fr/', it: '/it/' };
 const names = { es: 'Español', en: 'English', de: 'Deutsch', fr: 'Français', it: 'Italiano' };
 const snapshot = JSON.parse(await readFile(new URL('../data/snapshot.json', import.meta.url), 'utf8'));
 const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
-const link = (url, label) => `<a href="${escape(url)}">${escape(label)} <span aria-hidden="true">↗</span></a>`;
+const link = (url, label) => `<a href="${escape(url)}">${escape(label)} <span class="external" aria-hidden="true"></span></a>`;
 const alternates = Object.entries(urls).map(([locale, path]) => `<link rel="alternate" hreflang="${locale}" href="${origin + path}">`).join('\n');
 const anchors = [['warnings', 'warnings'], ['legal', 'legal'], ['news', 'news'], ['protection', 'protection']];
 const legal = [
@@ -68,16 +68,16 @@ ${link(registry, t.fallback)}
 <h3>${t.archive}</h3><p>${t.archiveNote}</p>
 <ul class="archive">${snapshot.archive.map(item => `<li>${date(item.date)} · ${link(item.url, item.reference)}</li>`).join('')}</ul>
 <div id="active-warnings"></div>
-<p>${link(warnings, t.proof)}</p></section>
+<p>${link(warnings, t.proof)} · ${link(previousWarnings, "DCJA")}</p></section>
 <section class="panel player" id="protection"><h2>${t.protection}</h2><p>${t.helpText}</p><ul class="resources">
 <li>${link('https://www.casinos.gob.do/juego-responsable/herramientas-de-ayuda-y-soporte/', t.help)}</li>
 <li>${link('https://www.casinos.gob.do/juego-responsable/formulario-de-autoexclusion/', t.self)}<p>${t.selfText}</p></li>
-<li>${link('https://www.casinos.gob.do/denuncias-y-sugerencias/', t.complaint)}<p>${t.complaintText}</p></li>
+<li>${link('https://www.casinos.gob.do/denuncias-y-sugerencias/', t.complaint)} · ${link('https://dgja.gob.do/', 'DGJA')}<p>${t.complaintText}</p></li>
 </ul></section>
 </div>
-<section class="panel feed" id="legal"><h2>${t.legal}</h2><p>${t.original}</p><ol class="items">${docs}</ol></section>
+<section class="panel feed" id="legal"><h2>${t.legal}</h2><p>${t.original}</p><p data-news-stale hidden>${t.stale}</p><ol class="items">${docs}</ol></section>
 <section class="panel feed" id="news"><h2>${t.news}</h2><p>${t.original}</p>
-<p data-source="news"></p><p id="news-stale" hidden>${t.stale}</p>
+<p data-source="news"></p><p data-news-stale hidden>${t.stale}</p>
 <ol class="items">${articles}</ol><p>${link(news, t.publications)}</p></section>
 <section class="panel" id="sources"><h2>${t.sources}</h2><h3>${t.method}</h3><p>${t.methodText}</p>
 <ul class="source-list">

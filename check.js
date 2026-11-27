@@ -62,7 +62,7 @@ function updateStatus() {
     if (source?.retrievedAt) notes.push(translations.retrieved + ' · ' + stamp(source.retrievedAt));
     element.textContent = notes.join(' — ');
   }
-  document.querySelector('#news-stale').hidden = fresh(snapshot?.news);
+  for (const element of document.querySelectorAll('[data-news-stale]')) element.hidden = fresh(snapshot?.news);
   const panel = document.querySelector('#active-warnings');
   panel.replaceChildren();
   if (fresh(snapshot?.warnings)) {
@@ -77,7 +77,7 @@ function updateStatus() {
 }
 
 try {
-  const response = await fetch('/data/snapshot.json', { cache: 'no-cache' });
+  const response = await fetch('/data/snapshot.json', { cache: 'no-cache', signal: AbortSignal.timeout(8000) });
   if (!response.ok) throw new Error('Snapshot unavailable');
   const payload = await response.json();
   if (![payload.registry, payload.warnings, payload.news].every(source => Array.isArray(source?.records)) ||
