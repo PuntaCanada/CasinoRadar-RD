@@ -1,0 +1,168 @@
+{
+  "registry": {
+    "url": "https://dgja.gob.do/juegos-autorizados/",
+    "status": "unavailable",
+    "checkedAt": "2026-11-27T10:32:44.225Z",
+    "retrievedAt": null,
+    "records": []
+  },
+  "warnings": {
+    "url": "https://www.casinos.gob.do/juegos-autorizados/operadores-no-autorizados/",
+    "status": "unavailable",
+    "checkedAt": "2026-11-27T10:32:44.225Z",
+    "retrievedAt": null,
+    "records": []
+  },
+  "news": {
+    "url": "https://dgja.gob.do/noticias/",
+    "status": "ok",
+    "checkedAt": "2026-11-27T10:32:44.225Z",
+    "retrievedAt": "2026-11-27T10:32:44.225Z",
+    "records": [
+      {
+        "title": "Resolución Núm.04-2026 que establece los requisitos obligatorios para comercializar los sorteos de la Lotería Nacional a través de bancas de lotería, agencias y puntos de venta",
+        "date": "2026-11-17",
+        "url": "https://dgja.gob.do/noticias/resolucion-num-04-2026-que-establece-los-requisitos-obligatorios-para-comercializar-los-sorteos-de-la-loteria-nacional-a-traves-de-bancas-de-loteria-agencias-y-puntos-de-venta/",
+        "documents": [
+          "https://dgja.gob.do/wp-content/uploads/2026/11/RESOLUCION-04-DEL-2026.-SCAN.pdf"
+        ]
+      },
+      {
+        "title": "Dirección General de Juegos de Azar extiende plazo extraordinario para declarar los establecimientos que quedaron fuera del Plan de Regularización hasta el lunes 23 de noviembre de 2026",
+        "date": "2026-11-13",
+        "url": "https://dgja.gob.do/noticias/direccion-general-de-juegos-de-azar-extiende-plazo-extraordinario-para-declarar-los-establecimientos-que-quedaron-fuera-del-plan-de-regularizacion-hasta-el-lunes-23-de-noviembre-de-2026/",
+        "documents": []
+      },
+      {
+        "title": "Resolución Núm. 03-2026 que establece, con carácter transitorio, los requisitos y el procedimiento administrativo simplificado para el cambio de propietario, de nombre comercial, traslado o cambio de dirección y el cierre definitivo de bancas de lotería, bancas de apuestas deportivas y bingos.",
+        "date": "2026-11-10",
+        "url": "https://dgja.gob.do/noticias/resolucion-num-03-2026-que-establece-con-caracter-transitorio-los-requisitos-y-el-procedimiento-administrativo-simplificado-para-el-cambio-de-propietario-de-nombre-comercial-traslado-o-cambio-de/",
+        "documents": [
+          "https://dgja.gob.do/wp-content/uploads/2026/11/Resolucion-Num.-03-2026.pdf"
+        ]
+      },
+      {
+        "title": "Aviso de reiteración vencimiento del plazo extraordinario de 30 días",
+        "date": "2026-11-02",
+        "url": "https://dgja.gob.do/noticias/aviso-de-reiteracion-vencimiento-del-plazo-extraordinario-de-30-dias/",
+        "documents": []
+      },
+      {
+        "title": "Información de interés para los propietarios y operadores de bancas de lotería, bancas deportivas y demás establecimientos de juegos de azar",
+        "date": "2026-10-23",
+        "url": "https://dgja.gob.do/noticias/informacion-de-interes-para-los-propietarios-y-operadores-de-bancas-de-loteria-bancas-deportivas-y-demas-establecimientos-de-juegos-de-azar/",
+        "documents": []
+      },
+      {
+        "title": "Dirección General de Juegos de Azar entrega a la DGII base de datos de establecimientos acogidos al Plan de Regularización",
+        "date": "2026-10-19",
+        "url": "https://dgja.gob.do/noticias/direccion-general-de-juegos-de-azar-entrega-a-la-dgii-base-de-datos-de-establecimientos-acogidos-al-plan-de-regularizacion/",
+        "documents": []
+      },
+      {
+        "title": "DGJA advierte sobre sanciones por instalación de bancas de apuestas sin autorización",
+        "date": "2026-10-14",
+        "url": "https://dgja.gob.do/noticias/dgja-advierte-sobre-sanciones-por-instalacion-de-bancas-de-apuestas-sin-autorizacion/",
+        "documents": []
+      },
+      {
+        "title": "Primeras Resoluciones emitidas por la Dirección General de Juegos de Azar",
+        "date": "2026-10-13",
+        "url": "https://dgja.gob.do/noticias/primeras-resoluciones-emitidas-por-la-direccion-general-de-juegos-de-azar/",
+        "documents": [
+          "https://dgja.gob.do/wp-content/uploads/2026/10/RESOLUCION-DGJA-NO.-01-1.pdf",
+          "https://dgja.gob.do/wp-content/uploads/2026/10/RESOLUCION-DGJA-NO.02-1.pdf"
+        ]
+      }
+    ]
+  },
+  "archive": [
+    {
+      "reference": "MH-2025-005915",
+      "date": "2025-02-25",
+      "url": "https://www.casinos.gob.do/wp-content/uploads/2025/02/MH-2025-005915-Aviso-de-Advertencia-sitios-web-no-autorizados_25feb2025.pdf",
+      "domains": [
+        "www.domloteria.com",
+        "www.elboletoganador.com",
+        "app.banmovil.com",
+        "tujugadard.com",
+        "betway.com",
+        "www.1-win.es",
+        "1xbet.com",
+        "www.888sport.es",
+        "www.888sport.com",
+        "netbet.com",
+        "www.betzest.com",
+        "pokerstars.com",
+        "www.betway.lat",
+        "interwetten.es",
+        "www.es.betcli.com",
+        "www.betsson.com",
+        "www.codere.es",
+        "www.sportytrader.com",
+        "www.betfair.com",
+        "www.betfair.com.co",
+        "www.interwetten.com",
+        "www.williamhill.es",
+        "www.bwin.com",
+        "www.betsafe.com",
+        "www.williamhill.com",
+        "www.1xbet.com",
+        "www.marathonbet.com",
+        "www.22bet.com",
+        "sports.sportingbet.com",
+        "www.20bet.com",
+        "www.marcaapuestas.es",
+        "www.playzilla.com",
+        "www.wanabet.es",
+        "www.bc.game",
+        "www.goldenpark.es",
+        "www.cyber.bet",
+        "www.suertia.es",
+        "www.megapari.com",
+        "22bet.com",
+        "www.gg.bet",
+        "www.betwinner1.com",
+        "www.zebet.com",
+        "www.mostbet.com",
+        "www.sportimba.com",
+        "www.bet365.com",
+        "hinchabet.com",
+        "www.afiliapub.com",
+        "www.caliente.mx",
+        "www.everygame.eu",
+        "www.mrgreen.com",
+        "www.evo-bet.com",
+        "www.planetwin365.it",
+        "www.betononline.ag",
+        "betboro.com",
+        "www.bons.com",
+        "www.betmotion.com",
+        "www.marathonbet.es",
+        "campeonbet.com",
+        "www.deportes.marcaapuestas.es",
+        "www.circus.es",
+        "www.grandivy.com",
+        "www.pokerstarssports.es",
+        "www.casino.mrgreen.com",
+        "www.jokerbet.es",
+        "www.slotsmillion.com",
+        "www.versus.es",
+        "www.casinogranmadridonline.es",
+        "www.10bet.com",
+        "www.paddypower.com",
+        "www.megamillions.com",
+        "www.rifa2rd.com",
+        "www.tornadobet.com",
+        "www.rifalia.com.do",
+        "www.be.bookmaker.eu",
+        "www.lottocar.org",
+        "www.melbet.com",
+        "www.couponsaid.com",
+        "www.dafaplay.com",
+        "www.betobet.com",
+        "www.betmaster.io"
+      ]
+    }
+  ]
+}
