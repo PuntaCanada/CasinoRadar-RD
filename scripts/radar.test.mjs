@@ -77,3 +77,18 @@ test('all five localized static pages have SEO and protected browser-only input'
     for (const id of ['warnings', 'legal', 'news', 'protection', 'privacy', 'sources']) assert.ok(html.includes('id="' + id + '"'));
   }
 });
+
+import { localizedTitle, pending } from './titles.mjs';
+test('official title localization preserves Spanish originals and labels unknown titles', async () => {
+  const snapshot = JSON.parse(await readFile(new URL('../data/snapshot.json', import.meta.url), 'utf8'));
+  for (const lang of ['de','en','fr','it']) {
+    assert.ok(pending[lang]);
+    for (const item of snapshot.news.records) {
+      const translated = localizedTitle(item.title, lang);
+      assert.equal(localizedTitle(item.title, 'es').text, item.title);
+      assert.ok(translated.pending ? translated.lang === 'es' : translated.lang === lang && translated.text !== item.title);
+    }
+    assert.deepEqual(localizedTitle('Nuevo aviso desconocido', lang), {text:'Nuevo aviso desconocido',lang:'es',pending:true});
+    assert.equal(localizedTitle('Ley núm. 86-26',lang).pending,false);
+  }
+});
