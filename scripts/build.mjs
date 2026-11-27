@@ -1,4 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import { localizedTitle, pending } from './titles.mjs';
 import { copy } from './copy.mjs';
 import { registry, warnings, previousWarnings, news } from './sources.mjs';
 
@@ -19,10 +20,14 @@ const legal = [
 for (const [lang, t] of Object.entries(copy)) {
   const formatDate = date => new Intl.DateTimeFormat(lang, { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(date));
   const date = value => `<time datetime="${escape(value)}">${escape(formatDate(value))}</time>`;
-  const articles = snapshot.news.records.slice(0, 8).map(item => `<li><p class="stamp">${date(item.date)}</p><h3 lang="es">${escape(item.title)}</h3>${link(item.url, t.more)}</li>`).join('\n');
-  const onlineLegal = snapshot.news.records.flatMap(item => item.documents.map((url, i) => [item.documents.length === 1 ? item.title : item.title + ' (' + (i + 1) + ')', item.date, url]));
+  const heading = (title, suffix = '') => {
+    const item = localizedTitle(title, lang);
+    return '<h3 lang="' + item.lang + '">' + escape(item.text + suffix) + '</h3>' + (item.pending ? '<p class="stamp" data-translation-pending>' + escape(pending[lang]) + '</p>' : '');
+  };
+  const articles = snapshot.news.records.slice(0, 8).map(item => `<li><p class="stamp">${date(item.date)}</p>${heading(item.title)}${link(item.url, t.more)}</li>`).join('\n');
+  const onlineLegal = snapshot.news.records.flatMap(item => item.documents.map((url, i) => [item.title, item.date, url, item.documents.length === 1 ? '' : ' (' + (i + 1) + ')']));
   const documents = [...new Map(onlineLegal.map(item => [item[2], item])).values(), ...legal];
-  const docs = documents.map(([title, day, url]) => `<li><p class="stamp">${date(day)}</p><h3 lang="es">${escape(title)}</h3>${link(url, t.proof)}</li>`).join('\n');
+  const docs = documents.map(([title, day, url, suffix]) => `<li><p class="stamp">${date(day)}</p>${heading(title, suffix)}${link(url, t.proof)}</li>`).join('\n');
   const html = `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -46,7 +51,7 @@ ${alternates}
 <a class="skip" href="#main">${t.skip}</a>
 <header class="top"><div class="wrap masthead">
 <a class="brand" href="${urls[lang]}"><img src="/radar.svg" alt="" width="35" height="35"> CasinoRadar <span>RD</span></a>
-<nav class="languages" aria-label="Idioma / Language">${Object.entries(urls).map(([locale, path]) => `<a href="${path}" lang="${locale}" hreflang="${locale}" aria-label="${names[locale]}"${lang === locale ? ' aria-current="page"' : ''}>${locale.toUpperCase()}</a>`).join('')}</nav>
+<nav class="languages" aria-label="${escape(({es:"Idioma",en:"Language",de:"Sprache",fr:"Langue",it:"Lingua"})[lang])}">${Object.entries(urls).map(([locale, path]) => `<a href="${path}" lang="${locale}" hreflang="${locale}" aria-label="${names[locale]}"${lang === locale ? ' aria-current="page"' : ''}>${locale.toUpperCase()}</a>`).join('')}</nav>
 </div></header>
 <main id="main">
 <div class="hero"><div class="wrap hero-grid">
