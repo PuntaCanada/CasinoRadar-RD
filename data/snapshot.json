@@ -2,22 +2,22 @@
   "registry": {
     "url": "https://dgja.gob.do/juegos-autorizados/",
     "status": "unavailable",
-    "checkedAt": "2026-11-27T10:38:14.661Z",
+    "checkedAt": "2026-11-27T10:41:15.547Z",
     "retrievedAt": null,
     "records": []
   },
   "warnings": {
     "url": "https://dgja.gob.do/sanciones/",
     "status": "unavailable",
-    "checkedAt": "2026-11-27T10:38:14.661Z",
+    "checkedAt": "2026-11-27T10:41:15.547Z",
     "retrievedAt": null,
     "records": []
   },
   "news": {
     "url": "https://dgja.gob.do/noticias/",
     "status": "ok",
-    "checkedAt": "2026-11-27T10:38:14.661Z",
-    "retrievedAt": "2026-11-27T10:38:14.661Z",
+    "checkedAt": "2026-11-27T10:41:15.547Z",
+    "retrievedAt": "2026-11-27T10:41:15.547Z",
     "records": [
       {
         "title": "Resolución Núm.04-2026 que establece los requisitos obligatorios para comercializar los sorteos de la Lotería Nacional a través de bancas de lotería, agencias y puntos de venta",
