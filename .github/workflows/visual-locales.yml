@@ -1,0 +1,26 @@
+name: Mobile locale review
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node scripts/build.mjs && git diff --exit-code
+      - run: npm install --no-save --no-package-lock playwright
+      - run: npx playwright install --with-deps chromium
+      - run: |
+          python3 -m http.server 8000 > /tmp/radar-server.log 2>&1 &
+          node scripts/mobile-review.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mobile-locales
+          path: screenshots/
+          retention-days: 3
+          if-no-files-found: error
